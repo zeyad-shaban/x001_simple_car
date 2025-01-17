@@ -30,7 +30,7 @@
         <xacro:box_inertial m="1.0" l="${base_length}" w="${base_width}" h="${base_height}" />
     </link>
 
-    <joint name="base_footprint_to_link" type="fixed">
+    <joint name="base_footprint_base_link_joint" type="fixed">
         <parent link="base_footprint" />
         <child link="base_link" />
         <origin xyz="0 0.0 ${base_height / 2}" rpy="0.0 0.0 0.0" />
@@ -56,7 +56,7 @@
             <xacro:cylinder_inertial m="0.1" r="${wheel_radius}" l="${wheel_length}" />
         </link>
 
-        <joint name="base_link_to_${prefix}_wheel" type="continuous">
+        <joint name="base_${prefix}_wheel_joint" type="continuous">
             <parent link="base_link" />
             <child link="${prefix}_wheel" />
 
@@ -88,7 +88,7 @@
         <xacro:solid_sphere_inertial m="${caster_mass}" r="${caster_radius}" />
     </link>
 
-    <joint name="base_link_to_caster_wheel" type="fixed">
+    <joint name="base_caster_wheel_joint" type="fixed">
         <parent link="base_link" />
         <child link="caster_wheel" />
         <origin xyz="${base_length * 1/4} 0.0 -${caster_radius + base_height / 2}" rpy="0.0 0.0 0.0" />

@@ -31,7 +31,10 @@ def generate_launch_description():
             package="robot_state_publisher",
             executable="robot_state_publisher",
             name="robot_state_publisher",
-            parameters=[{"use_sim_time": True}, {"robot_description": x001_desc}],
+            parameters=[
+                {"use_sim_time": True}, 
+                {"robot_description": x001_desc}
+            ],
             output="screen",
         ),
         IncludeLaunchDescription(
@@ -39,32 +42,25 @@ def generate_launch_description():
                 os.path.join(pkg_ros_gz_sim, "launch", "gz_sim.launch.py")
             ),
             launch_arguments={
-                "gz_args": ["-r -v4 ", LaunchConfiguration("world_sdf")]
+                "gz_args": ["-r ", LaunchConfiguration("world_sdf")]
             }.items(),
         ),
-        # Add spawn entity node
         Node(
             package="ros_gz_sim",
             executable="create",
-            arguments=[
-                "-topic",
-                "/robot_description",
-                "-name",
-                "x001",
-                "-allow_renaming",
-                "true",
-                "-z",
-                "0.1",
-            ],
+            arguments=["-topic", "/robot_description", "-name", "x001", "-allow_renaming", "true"],
             output="screen",
         ),
-        # RosGzBridge(
-        #     bridge_name=LaunchConfiguration("bridge_name"),
-        #     config_file=LaunchConfiguration("config_file"),
-        # ),
+        RosGzBridge(
+            bridge_name=LaunchConfiguration("bridge_name"),
+            config_file=LaunchConfiguration("config_file"),
+        ),
         Node(
             package="rviz2",
             executable="rviz2",
+            name="rviz2",
+            parameters=[{"use_sim_time": True}],
+            output="screen",
         ),
     ]
 
